@@ -32,6 +32,20 @@ client.on('message', message => {
 
     const command = client.commands.get(commandName);
 
+    if (command.guildOnly && message.channel.type === 'dm') {
+        return message.reply('It\'s just us here...');
+    }
+
+    if (command.args && !args.length) {
+        let reply = `This command requires arguments and you gave it none. Why would you do that, ${message.author}?`;
+
+        if (command.usage) {
+            reply += `\nUse it like this: \`${prefix}${command.name} ${command.usage}\``;
+        }
+
+        return message.channel.send(reply);
+    }
+
     try {
         command.execute(message, args);
     }

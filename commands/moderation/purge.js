@@ -1,9 +1,11 @@
 module.exports = {
     name: 'purge',
     description: 'Don\'t let them find out.',
+    usage: '<int: amount of evidence to burn>',
+    guildOnly: true,
     execute(message, args) {
-        let toDelete = 2;
-        if (args.length != 0) {
+        let toDelete = 3;
+        if (args.length) {
             toDelete = parseInt(args[0]);
         }
         if (isNaN(toDelete)) {
