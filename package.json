@@ -1,0 +1,15 @@
+{
+  "name": "dedalus",
+  "version": "1.0.0",
+  "description": "Files for discord bot, Dedalus",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ."
+  },
+  "author": "David McGuigan",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
