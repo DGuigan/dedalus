@@ -1,10 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const { client } = require('./config.js');
+const { cooldown } = require('./cooldown.js');
 const { prefix , token} = require('./config.json');
 
 let bot_name = 'Dedalus';
 
-const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const commandFolders = fs.readdirSync('./commands');
@@ -46,11 +47,13 @@ client.on('message', message => {
         return message.channel.send(reply);
     }
 
-    try {
-        command.execute(message, args);
-    }
-    catch (error) {
-        console.error(error);
-        message.reply(`Sorry I messed that up, please send an angry email to David.`);
+    if (!cooldown(command, message)) {
+        try {
+            command.execute(message, args);
+        }
+        catch (error) {
+            console.error(error);
+            message.reply(`Sorry I messed that up, please send an angry email to David.`);
+        }
     }
 });
