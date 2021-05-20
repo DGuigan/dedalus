@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const { client } = require('./config.js');
 const { cooldown } = require('./cooldown.js');
 const { prefix , token} = require('./config.json');
-const { getUsage } = require('./utilities.js');
+const { getCommand, getUsage } = require('./utilities.js');
 
 let bot_name = 'Dedalus';
 
