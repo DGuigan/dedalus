@@ -6,14 +6,14 @@ const { prefix , token} = require('./config.json');
 
 let bot_name = 'Dedalus';
 
-client.commands = new Discord.Collection();
+client.commandList = new Discord.Collection();
 
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
     const commandFiles = fs.readdirSync(`./commands/${folder}`);
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
-        client.commands.set(command.name, command);
+        client.commandList.set(command.name, command);
     }
 }
 
@@ -29,9 +29,9 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    if (!client.commands.has(commandName)) return;
+    const command = client.commandList.get(commandName) || client.commandList.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-    const command = client.commands.get(commandName);
+    if (!command) return;
 
     if (command.guildOnly && message.channel.type === 'dm') {
         return message.reply('It\'s just us here...');

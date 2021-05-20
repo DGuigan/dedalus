@@ -1,5 +1,6 @@
 module.exports = {
-    name: 'purge',
+    name: 'delete',
+    aliases: ['purge', 'burn'],
     description: 'Don\'t let them find out.',
     usage: '<int: amount of evidence to burn>',
     guildOnly: true,
