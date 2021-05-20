@@ -18,7 +18,7 @@ exports.cooldown = (command, message) => {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
         const timeLeft = (expirationTime - now) / 1000;
-        message.reply(`Woah, not so fast cowboy. Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${command.name}\` again.`);
+        message.reply(`Woah, not so fast cowboy. Please wait ${timeLeft.toFixed(1)} more seconds before using \`${command.name}\` again.`);
         return true;     
     }
     timestamps.set(message.author.id, now);
