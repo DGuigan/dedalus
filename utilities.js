@@ -9,24 +9,52 @@ const { prefix } = require('./config.json');
 */
 client.cooldowns = new Discord.Collection();
 
+// returns command with corresponding name or alias 
 exports.getCommand = (commandName) => {
     return client.commandList.get(commandName) || client.commandList.find(cmd => cmd.aliases && cmd.aliases.includes(commandName)); 
 }
 
+// constructs and returns full usage of a given command
 exports.getUsage = (command) => {
     return `${prefix}${command.name} ${command.usage}`;
 }
 
+// returns true if message author has required permissions for given command
 exports.checkPermissions = (message, command) => {
     const authorPerms = message.channel.permissionsFor(message.author);
     
     if (!command.permissions || authorPerms.has(command.permissions)) {
-        return true
+        return true;
     }
-    return false
+    return false;
 }
 
-exports.cooldown = (command, message) => {
+// returns true if author supplied sufficient arguments
+exports.checkArgs = (message, command) => {
+    if (command.args && !args.length) {
+        let reply = `This command requires arguments and you gave it none. Why would you do that, ${message.author}?`;
+
+        if (command.usage) {
+            reply += `\nUse it like this: \`${utils.getUsage(command)}\``;
+        }
+
+        message.channel.send(reply);
+        return false;
+    }
+    return true;
+}
+
+exports.checkGuild = (message, command) => {
+    if (command.guildOnly && message.channel.type === 'dm') {
+        message.reply('It\'s just us here...');
+        return false;
+    }
+    return true;
+}
+
+// returns true if message author has remaining cooldown time for command
+// sets cooldown time if not
+exports.cooldown = (message, command) => {
     const { cooldowns } = client;
 
     // set command in cooldowns if not already set

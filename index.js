@@ -8,6 +8,7 @@ let bot_name = 'Dedalus';
 
 client.commandList = new Discord.Collection();
 
+// scan commands folder and build collection of commands 
 const commandFolders = fs.readdirSync('./commands');
 for (const folder of commandFolders) {
     const commandFiles = fs.readdirSync(`./commands/${folder}`);
@@ -31,27 +32,11 @@ client.on('message', message => {
 
     const command = utils.getCommand(commandName);
 
-    if (!command) return;
-
-    if (command.guildOnly && message.channel.type === 'dm') {
-        return message.reply('It\'s just us here...');
-    }
-
-    if (command.args && !args.length) {
-        let reply = `This command requires arguments and you gave it none. Why would you do that, ${message.author}?`;
-
-        if (command.usage) {
-            reply += `\nUse it like this: \`${utils.getUsage(command)}\``;
-        }
-
-        return message.channel.send(reply);
-    }
-
-    if (!utils.checkPermissions(message, command)) {
-        return;
-    }
-
-    if (!utils.cooldown(command, message)) {
+    if (command &&
+        utils.checkPermissions(message, command) &&
+        utils.checkArgs(message, command) &&
+        utils.checkGuild(message, command) &&
+        !utils.cooldown(message, command)) {
         try {
             command.execute(message, args);
         }
