@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { client } = require('./config.js');
-const { cooldown } = require('./cooldown.js');
 const { prefix , token} = require('./config.json');
 const utils = require('./utilities.js');
 
@@ -52,7 +51,7 @@ client.on('message', message => {
         return;
     }
 
-    if (!cooldown(command, message)) {
+    if (!utils.cooldown(command, message)) {
         try {
             command.execute(message, args);
         }
