@@ -4,8 +4,6 @@ const { client } = require('./config.js');
 const { prefix, token, bot_name} = require('./config.json');
 const utils = require('./utilities.js');
 
-let bot_name = 'Dedalus';
-
 client.commandList = new Discord.Collection();
 
 // scan commands folder and build collection of commands 
