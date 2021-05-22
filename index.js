@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const { client } = require('./config.js');
 const { cooldown } = require('./cooldown.js');
 const { prefix , token} = require('./config.json');
-const { getCommand, getUsage } = require('./utilities.js');
+const utils = require('./utilities.js');
 
 let bot_name = 'Dedalus';
 
@@ -30,7 +30,7 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
 
-    const command = getCommand(commandName);
+    const command = utils.getCommand(commandName);
 
     if (!command) return;
 
@@ -42,10 +42,14 @@ client.on('message', message => {
         let reply = `This command requires arguments and you gave it none. Why would you do that, ${message.author}?`;
 
         if (command.usage) {
-            reply += `\nUse it like this: \`${getUsage(command)}\``;
+            reply += `\nUse it like this: \`${utils.getUsage(command)}\``;
         }
 
         return message.channel.send(reply);
+    }
+
+    if (!utils.checkPermissions(message, command)) {
+        return;
     }
 
     if (!cooldown(command, message)) {

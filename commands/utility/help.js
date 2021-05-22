@@ -1,5 +1,5 @@
 const { prefix } = require('../../config.json');
-const { getCommand, getUsage } = require('../../utilities.js');
+const utils = require('../../utilities.js');
 
 module.exports = {
     name: 'help',
@@ -13,12 +13,12 @@ module.exports = {
 
         if (args.length) {
             for (commandName of args) {
-                const command = getCommand(commandName.toLowerCase());
+                const command = utils.getCommand(commandName.toLowerCase());
                 if (command) {
                     data.push(`Name: ${command.name}`);
                     data.push(`Description: ${command.description}`);
                     if (command.aliases) data.push(`Aliases: ${command.aliases.join(', ')}`);
-                    if (command.usage) data.push(`Usage: ${getUsage(command)}`);
+                    if (command.usage) data.push(`Usage: ${utils.getUsage(command)}`);
                     data.push(`Cooldown: ${command.cooldown || 0} second(s)\n`);
                 }
                 else {
@@ -29,7 +29,7 @@ module.exports = {
         else {
             data.push('Commands:');
             data.push('\t' + commandList.map(command => command.name).join('\n\t'));
-            data.push(`Use \`${getUsage(this)}\` for more info`);
+            data.push(`Use \`${utils.getUsage(this)}\` for more info`);
         }
         message.channel.send(data);
     }

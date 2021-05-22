@@ -1,6 +1,7 @@
 module.exports = {
     name: 'kick',
     description: 'Removes meddling kids.',
+    permissions: ['KICK_MEMBERS'],
     args: true,
     guildOnly: true,
     usage: '<user>',
