@@ -1,6 +1,6 @@
 module.exports = {
     name: 'kick',
-    description: 'Removes meddling kids.',
+    description: 'Removes meddling kids',
     usage: '<user>',
     permissions: ['KICK_MEMBERS'],
     args: true,
