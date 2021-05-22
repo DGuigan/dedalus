@@ -1,7 +1,7 @@
 module.exports = {
     name: 'permissions',
-    aliases: ['perms'],
     description: 'Prints permissions of caller or named users',
+    aliases: ['perms'],
     usage: '[people...]',
     guildOnly: true,
     execute(message, args) {

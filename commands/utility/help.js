@@ -3,8 +3,8 @@ const utils = require('../../utilities.js');
 
 module.exports = {
     name: 'help',
-    aliases: ['commands'],
     description: 'Lists all commands or details about those specified',
+    aliases: ['commands'],
     usage: '[command names...]',
     cooldown: 5,
     execute(message, args) {
