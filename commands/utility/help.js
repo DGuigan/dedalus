@@ -5,12 +5,13 @@ module.exports = {
     name: 'help',
     description: 'Lists all commands or details about those specified',
     aliases: ['commands'],
-    usage: '[command names...]',
+    usage: '[command_names...]',
     cooldown: 5,
     execute(message, args) {
         const data = [];
         const { commandList } = message.client;
 
+        // if commands given provide further details
         if (args.length) {
             for (commandName of args) {
                 const command = utils.getCommand(commandName.toLowerCase());
