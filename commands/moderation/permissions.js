@@ -5,17 +5,13 @@ module.exports = {
     usage: '[people...]',
     guildOnly: true,
     execute(message, args) {
+        // if no users mentioned default to message author
+        // .map is just converting the collection to an array for easy use
+        let users = message.mentions.users.size ? message.mentions.users.map(col => col) : [message.author];
 
-        if (message.mentions.users.size) {
-            for (user of message.mentions.users) {
-                let i = 1;
-                const perms = message.channel.permissionsFor(user[1]).toArray();
-                message.channel.send(`${user[1].username}'s permissions:\n\t${perms.join(`\n\t`)}`);
-            }
-        }
-        else {
-            const perms = message.channel.permissionsFor(message.author).toArray();
-            message.channel.send(`Your permissions:\n\t${perms.join('\n\t')}`);
-        }        
+        for (user of users) {
+            const perms = message.channel.permissionsFor(user).toArray();
+            message.channel.send(`Permissions for ${user.username}:\n\t${perms.join(`\n\t`)}\n`);
+        }  
     }
 }
