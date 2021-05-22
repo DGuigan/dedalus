@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { client } = require('./config.js');
-const { prefix , token} = require('./config.json');
+const { prefix, token, bot_name} = require('./config.json');
 const utils = require('./utilities.js');
 
 let bot_name = 'Dedalus';
