@@ -1,8 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { client } = require('./config.js');
-const { prefix, token, bot_name} = require('./config.json');
-const utils = require('./utilities.js');
+const { token } = require('./config.json');
 
 client.commandList = new Discord.Collection();
 
@@ -16,31 +15,16 @@ for (const folder of commandFolders) {
     }
 }
 
-client.once('ready', () => {
-    console.log(`${bot_name} online`);
-});
+// scan events folder and set up event listeners
+const eventFiles = fs.readdirSync('./events');
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once){
+        client.once(event.name, (...args) => event.execute(...args));
+    }
+    else {
+        client.on(event.name, (...args) => event.execute(...args));
+    }
+}
 
 client.login(token);
-
-client.on('message', message => {
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-
-    const command = utils.getCommand(commandName);
-
-    if (command &&
-        utils.checkPermissions(message, command) &&
-        utils.checkArgs(message, command, args) &&
-        utils.checkGuild(message, command) &&
-        !utils.cooldown(message, command)) {
-        try {
-            command.execute(message, args);
-        }
-        catch (error) {
-            console.error(error);
-            message.reply(`Sorry I messed that up, please send an angry email to David.`);
-        }
-    }
-});
