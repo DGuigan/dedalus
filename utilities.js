@@ -30,12 +30,12 @@ exports.checkPermissions = (message, command) => {
 }
 
 // returns true if author supplied sufficient arguments
-exports.checkArgs = (message, command) => {
+exports.checkArgs = (message, command, args) => {
     if (command.args && !args.length) {
         let reply = `This command requires arguments and you gave it none. Why would you do that, ${message.author}?`;
 
         if (command.usage) {
-            reply += `\nUse it like this: \`${utils.getUsage(command)}\``;
+            reply += `\nUse it like this: \`${this.getUsage(command)}\``;
         }
 
         message.channel.send(reply);

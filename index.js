@@ -32,7 +32,7 @@ client.on('message', message => {
 
     if (command &&
         utils.checkPermissions(message, command) &&
-        utils.checkArgs(message, command) &&
+        utils.checkArgs(message, command, args) &&
         utils.checkGuild(message, command) &&
         !utils.cooldown(message, command)) {
         try {
