@@ -6,6 +6,10 @@ module.exports = {
     args: true,
     guildOnly: true,
     execute(message, args) {
-        message.channel.send("Gonna be real I can't do this yet");
+        for (member of message.mentions.members) {
+            member[1].kick();
+            console.log(member);
+            message.reply(`kicked  ${member}`);
+        }
     }
 }
