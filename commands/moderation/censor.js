@@ -6,6 +6,7 @@ module.exports = {
     name: 'censor',
     description: 'Prevents people using words like "sus" and "UwU"',
     aliases: ['christianMode', 'CM'],
+    permissions: ['MANAGE_MESSAGES'],
     args: true,
     argMap: {
         'toggle': 0,
@@ -15,7 +16,7 @@ module.exports = {
         'remove': 4,
         'reset': 5,
     },
-    substitutions: ['NONO', 'REDACTED', 'STOP', 'CEASE', 'PAIN'],
+    substitutions: ['NONO', 'REDACTED', 'STOP', 'CEASE', 'PAIN', 'WHY'],
     value: false,
     censored: ['sus', 'uwu'],
     toggle: function() {
