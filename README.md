@@ -17,5 +17,12 @@ Relied on this [guide](https://discordjs.guide/) when getting started.
     * Repeats string
 * Help [ commands... ]
     * Lists all commands or details about those specified
+* Censor < innerCmd > [ args ]
+    * Various functions concering censoring words (Just for fun don't actually censor people)
+        * status - Replies with on/off status
+        * toggle - Toggles status on/off
+        * list - Lists words that will be censored
+        * add < words... > - Adds given words to blacklist
+        * remove < words... > - Removed given words from blacklist
 * Reload < commands... >
     * Reloads given commands
