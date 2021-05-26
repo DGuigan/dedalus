@@ -1,13 +1,15 @@
 const { prefix } = require('../config.json');
+const { christianMode } = require('../config.js');
 const utils = require('../utilities.js');
 
 module.exports = {
     name: 'message',
+    event: 'message',
     execute(message) {
         if (!message.content.startsWith(prefix) || message.author.bot) return;
 
         const args = message.content.slice(prefix.length).trim().split(/ +/);
-        const commandName = args.shift().toLowerCase();
+        const commandName = args.shift();
 
         const command = utils.getCommand(commandName);
 
