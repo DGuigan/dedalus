@@ -1,4 +1,4 @@
-const { christianMode } = require('../config.js');
+const christianMode = require('../commands/moderation/censor.js');
 const { prefix } = require('../config.json');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
         const words = message.content.split(/ +/);
         var wordFound = false;
         for (let i = 0; i < words.length; i++) {
-            if (christianMode.censored.includes(words[i])) {
+            if (christianMode.censored.includes(words[i].toLowerCase())) {
                 words[i] = "NONO";
                 wordFound = true;
             }
