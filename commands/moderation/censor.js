@@ -1,5 +1,5 @@
 /*
-* Module has typical command properties as well as argMap, value, censored, toggle, add and remove
+* Module has typical command properties as well as argMap, substitutions, value, censored, toggle, add and remove
 */
 
 module.exports = {
@@ -13,7 +13,9 @@ module.exports = {
         'list': 2,
         'add': 3,
         'remove': 4,
+        'reset': 5,
     },
+    substitutions: ['NONO', 'REDACTED', 'STOP', 'CEASE', 'PAIN'],
     value: false,
     censored: ['sus', 'uwu'],
     toggle: function() {
@@ -21,7 +23,7 @@ module.exports = {
     },
     add: function(word) {
         if (!this.censored.includes()) {
-            this.censored.push(word);
+            this.censored.push(word.toLowerCase());
             return true;
         }
         return false;
@@ -34,6 +36,9 @@ module.exports = {
         }
         return false;
     },
+    replace: function(word) {
+        return this.substitutions[Math.floor(Math.random() * this.substitutions.length)];
+    },
     execute(message, args) {
 
         switch (this.argMap[args[0].toLowerCase()]) {
@@ -43,7 +48,8 @@ module.exports = {
             case 1:
                 return message.channel.send(`Christian Mode is ${this.value ? '' : 'in'}activate`);
             case 2:
-                return message.channel.send(`Blasphemous words:\n\t${this.censored.join('\n\t')}`);
+                if (this.censored.length > 0) return message.channel.send(`Blasphemous words:\n\t${this.censored.join('\n\t')}`);
+                return message.reply("No censored words, it's the wild west out here");
             case 3:
                 if (args.length > 1) {
                     for (word of args.slice(1)) {
@@ -74,6 +80,9 @@ module.exports = {
                     message.reply('No words supplied');
                 }
                 break;
+            case 5:
+                this.censored = [];
+                return message.reply('The slate is wiped clean, don\'t sully this chance');
             default:
                 return message.reply(`${args[0]} is not a recognised keyword`);
         }
