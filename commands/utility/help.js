@@ -9,29 +9,34 @@ module.exports = {
     cooldown: 5,
     execute(message, args) {
         const data = [];
-        const { commandList } = message.client;
 
         // if commands given provide further details
         if (args.length) {
             for (commandName of args) {
                 const command = utils.getCommand(commandName.toLowerCase());
                 if (command) {
-                    data.push(`Name: ${command.name}`);
-                    data.push(`Description: ${command.description}`);
-                    if (command.aliases) data.push(`Aliases: ${command.aliases.join(', ')}`);
-                    if (command.usage) data.push(`Usage: ${utils.getUsage(command)}`);
-                    data.push(`Cooldown: ${command.cooldown || 0} second(s)\n`);
+                    const fields = [];
+                    fields.push(['Name:', `${command.name}`]);
+                    fields.push(['Description:', `${command.description}`]);
+                    if (command.aliases) fields.push(['Aliases:', `${command.aliases.join(', ')}`]);
+                    if (command.usage) fields.push(['Usage:', `${utils.getUsage(command)}`]);
+                    fields.push(['Cooldown:', `${command.cooldown || 0} second(s)\n`]);
+                    const response = utils.buildEmbed(command.name, `Info on the ${command.name} command`, fields, false);
+                    message.channel.send(response);
+
                 }
                 else {
-                    data.push(`Sorry, ${commandName} is not a listed command or an alias of one.\n`);
+                    message.reply(`Sorry, ${commandName} is not a listed command or an alias of one.\n`);
                 }
             }
         }
         else {
-            data.push('Commands:');
-            data.push('\t' + commandList.map(command => command.name).join('\n\t'));
-            data.push(`Use \`${utils.getUsage(this)}\` for more info`);
+            const fields = [];
+            for (command of message.client.commandList) {
+                fields.push([command[1].name, '   ' + command[1].description]);
+            }
+            const response = utils.buildEmbed('Commands', `Use \`${utils.getUsage(this)}\` for more info`, fields, true);
+            return message.channel.send(response);
         }
-        message.channel.send(data);
     }
 }

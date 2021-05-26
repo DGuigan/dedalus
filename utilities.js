@@ -19,6 +19,19 @@ exports.getUsage = (command) => {
     return `${prefix}${command.name} ${command.usage}`;
 }
 
+exports.buildEmbed = (title, description, body, inline) => {
+    const embed = new Discord.MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(title.toUpperCase())
+        .setDescription(description)
+        .setFooter('D', client.user.avatarURL())
+        .addField('\u200b', '-');
+    for (field of body) {
+        embed.addField(field[0], field[1], inline);
+    }
+    return embed;
+}
+
 // returns true if message author has required permissions for given command
 exports.checkPermissions = (message, command) => {
     const authorPerms = message.channel.permissionsFor(message.author);
