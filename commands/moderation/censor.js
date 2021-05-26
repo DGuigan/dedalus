@@ -1,4 +1,5 @@
 var { christianMode } = require('../../config.js');
+
 const argMap = {
     'toggle': 0,
     'state': 1,
@@ -9,7 +10,7 @@ const argMap = {
 
 module.exports = {
     name: 'censor',
-    description: 'Censors specific words in chat',
+    description: 'Prevents people using words like "sus" and "UwU"',
     aliases: ['christianMode', 'CM'],
     args: true,
     execute(message, args) {
@@ -23,11 +24,37 @@ module.exports = {
             case 2:
                 return message.channel.send(`Blasphemous words:\n\t${christianMode.censored.join('\n\t')}`);
             case 3:
-                christianMode.add(args[1]);
-                return message.reply(`Added ${args[1]} to blacklist`);
+                if (args.length > 1) {
+                    for (word of args.slice(1)) {
+                        if (christianMode.add(word)) {
+                            message.reply(`Added **${word}** to blacklist`);
+                        }
+                        else {
+                            message.reply(`**${word}** is already blacklisted`);
+                        }
+                    }
+                }
+                else {
+                    message.reply('No words supplied');
+                }
+                break;
             case 4:
-                christianMode.remove(args[1]);
-                return message.reply(`Removed ${args[1]} from blacklist`);
+                if (args.length > 1) {
+                    for (word of args.slice(1)) {
+                        if (christianMode.remove(word)) {
+                            message.reply(`Removed **${word}** from blacklist`);
+                        }
+                        else {
+                            message.reply(`**${word}** is not a blacklisted word`);
+                        }
+                    }
+                }
+                else {
+                    message.reply('No words supplied');
+                }
+                break;
+            default:
+                return message.reply(`${args[0]} is not a recognised keyword`);
         }
     }
 }

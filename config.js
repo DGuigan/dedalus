@@ -4,12 +4,16 @@ exports.client = new Discord.Client();
 
 exports.christianMode = {
     value: false,
-    censored: ['bad', 'fart'],
+    censored: ['sus', 'uwu'],
     toggle: function() {
         this.value = !this.value;
     },
     add: function(word) {
-        this.censored.push(word);
+        if (!this.censored.includes()) {
+            this.censored.push(word);
+            return true;
+        }
+        return false;
     },
     remove: function(word) {
         let i = this.censored.indexOf(word)

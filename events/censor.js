@@ -1,10 +1,11 @@
 const { christianMode } = require('../config.js');
+const { prefix } = require('../config.json');
 
 module.exports = {
     name: 'censor',
     event: 'message',
     execute(message) {
-        if (!christianMode.value) return;
+        if (message.content.startsWith(prefix) || !christianMode.value || message.author.bot) return;
 
         const words = message.content.split(/ +/);
         var wordFound = false;
