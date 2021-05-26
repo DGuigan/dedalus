@@ -3,7 +3,7 @@ const { christianMode } = require('../config.js');
 const utils = require('../utilities.js');
 
 module.exports = {
-    name: 'message',
+    name: 'command',
     event: 'message',
     execute(message) {
         if (!message.content.startsWith(prefix) || message.author.bot) return;
