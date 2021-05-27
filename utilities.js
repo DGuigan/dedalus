@@ -34,6 +34,8 @@ exports.buildEmbed = (title, description, body, inline) => {
 
 // returns true if message author has required permissions for given command
 exports.checkPermissions = (message, command) => {
+    if (message.channel.type === 'dm') return true;
+
     const authorPerms = message.channel.permissionsFor(message.author);
     
     if (!command.permissions || authorPerms.has(command.permissions)) {
